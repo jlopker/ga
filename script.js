@@ -8,7 +8,7 @@ app.config(function($routeProvider){
     templateUrl: 'about.html'
   });
 });
-app.controller('gaController',function($scope, $http){
+app.controller('gaController', ['$scope', '$http' ,function($scope, $http){
 
   $scope.names = [
     'Lolita Dipietro',
@@ -69,4 +69,4 @@ app.controller('gaController',function($scope, $http){
 
   };
 
-});
+}]);
