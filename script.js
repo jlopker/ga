@@ -33,7 +33,7 @@ app.controller('gaController',function($scope, $http){
     'Aretha Paige'
   ];
 
-  $scope.ga = [];
+  $scope.ga = {};
 
   $scope.searchYoutube = function(){
 
