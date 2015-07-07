@@ -1,1 +1,26 @@
-<h1>About us page.</h1>
+<div class="jumbotron text-center">
+  <p class="lead">
+    Searches Youtube for 5 most relevent videos
+  </p>
+</div>
+
+
+<form class="form-inline" ng-submit="searchYoutube()">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search videos" ng-model="ga.keyword" />
+      <button class="btn btn-primary">Search</button>
+    </div>
+  </form>
+  
+  <div ng-show="videos">
+    <div ng-repeat="video in videos">
+      <h2>{{ video.snippet.title }}</h2>
+      <div class="embed-responsive embed-responsive-16by9">
+        <youtube-video class="embed-responsive-item" video-id="video.id.videoId"></youtube-video>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="error">
+    <h2>{{error}}</h2>
+  </div>

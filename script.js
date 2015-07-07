@@ -1,14 +1,14 @@
-var app=angular.module('single-page-app',['ngRoute']);
+var app=angular.module('single-page-app',['ngRoute', 'youtube-embed']);
 app.config(function($routeProvider){
-      $routeProvider
-          .when('/',{
-                templateUrl: 'home.html'
-          })
-          .when('/about',{
-                templateUrl: 'about.html'
-          });
+  $routeProvider
+  .when('/',{
+    templateUrl: 'home.html'
+  })
+  .when('/youtube',{
+    templateUrl: 'about.html'
+  });
 });
-app.controller('cfgController',function($scope){
+app.controller('gaController',function($scope, $http){
 
   $scope.names = [
     'Lolita Dipietro',
@@ -30,6 +30,43 @@ app.controller('cfgController',function($scope){
     'Melda Diorio',
     'Rita Abbott',
     'Setsuko Minger',
-    'Aretha Paige'];
+    'Aretha Paige'
+  ];
+
+  $scope.ga = [];
+
+  $scope.searchYoutube = function(){
+
+    if ( typeof $scope.ga.keyword === 'undefined' || $scope.ga.keyword === ''){
+
+      $scope.error = 'No videos';
+      $scope.videos = null;
+
+    } else {
+
+      $scope.error = null;
+
+      $http.get('https://www.googleapis.com/youtube/v3/search',{
+        params: {
+          key: 'AIzaSyACTxZmBK4_-UBqoxKzojXgmPZkTNWP5U8',
+          type: 'video',
+          maxResults : '5',
+          part: 'id, snippet',
+          fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
+          q: $scope.ga.keyword
+        }
+      })
+      .success( function (data) {
+        $scope.ga.keyword = '';
+        $scope.videos = data.items;
+      })
+      .error( function (){
+        $scope.ga.keyword = '';
+        $scope.error = 'There was an error. Please try again.'
+      });
+
+    }
+
+  };
 
 });
